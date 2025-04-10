@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Verifique la identidad del personal operativo gubernamental a nivel nacional. Herramienta oficial para comprobar credenciales del personal que realiza encuestas.">
+    <title>Verificación de Identidad del Personal Operativo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+          font-size: 62.5%;
+        }
+
+        :root {
+          /* Fuentes Desktop*/
+          --fuente5: 4rem;
+          --fuente4: 2.6rem;
+          --fuente3: 2.2rem;
+          --fuente2: 2rem;
+          --fuente1: 1.8rem;
+          --fuente0: 1.6rem;
+          --fuente-0: 1.5rem;
+          --fuente-1: 1.3rem;
+          --fuente-2: 1rem;
+          --fuente-3: 0.8rem;
+          /* Fuentes Tablet*/
+          --fuente5_tablet: 3.5vw;
+          --fuente4_tablet: 2.7vw;
+          --fuente3_tablet: 2.2vw;
+          --fuente2_tablet: 1.71vw;
+          --fuente1_tablet: 1.42vw;
+          --fuente0_tablet: 1.2vw;
+          --fuente-1_tablet: 0.93vw;
+          --fuente-2_tablet: 0.71vw;
+          --fuente-3_tablet: 0.57vw;
+          /* Fuentes Mobile*/
+          --fuente5_mobile: 12.25vw;
+          --fuente4_mobile: 8.5vw;
+          --fuente3_mobile: 7.8vw;
+          --fuente2_mobile: 6.25vw;
+          --fuente1_mobile: 5vw;
+          --fuente0_mobile: 4vw;
+          --fuente-1_mobile: 3.25vw;
+          --fuente-2_mobile: 2.5vw;
+          --fuente-3_mobile: 2vw;
+        }
+
+        h1 {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 600;
+            font-size: var(--fuente5);
+            line-height: 50rem;
+        }
+
+        h2 {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 600;
+            font-size: var(--fuente4);
+            line-height: var(--fuente5);
+        }
+
+        h3 {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 600;
+            font-size: var(--fuente3);
+            line-height: var(--fuente4);
+        }
+
+        h4 {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 600;
+            font-size: var(--fuente2);
+            line-height: 3.2rem;
+        }
+
+        p {
+            font-family: "Work Sans", sans-serif;
+            font-weight: 400;
+            color: #333;
+            font-size: 1.5rem;
+            line-height: 1.8rem;
+        }
+
+        *:focus {
+            outline: 5px auto -webkit-focus-ring-color;
+            outline-offset: -2px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+        }
+        
+        .banner-verificacion-encuestadores {
+            grid-column: span 4; /* 4 columnas en desktop e iPad */
+            position: relative;
+            min-height: 608px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .banner-verificacion-encuestadores .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+        
+        .banner-verificacion-encuestadores .people-image {
+            position: absolute;
+            bottom: 0;
+            right: 5%;
+            top:48%;
+            max-height: 65%;
+            z-index: 2;
+            transition: transform 0.3s ease, right 0.3s ease;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+        }
+        
+        .banner-verificacion-encuestadores .banner-content {
+            position: relative;
+            z-index: 3;
+            padding: 48px 30px;
+            width: 100%;
+            max-width: 100%;
+            background-color: rgba(190, 12, 77, 0.98);
+            border-radius: 25px 25px 0 0;
+        }
+        
+        .banner-verificacion-encuestadores .banner-titulo {
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .banner-verificacion-encuestadores .banner-cuerpotexto {
+            font-family: Verdana, sans-serif;
+            font-size: var(--fuente0);
+            color: white;
+            margin-bottom: 25px;
+            line-height: 22px;
+        }
+        
+        .boton-inverido {
+            font-family: "Montserrat", sans-serif;
+            font-size: var(--fuente0);
+            font-weight: 500 !important;
+            color: #BE0C4D;
+            background-color: #ffffff;
+            border: solid #ffffff 2px !important;
+            border-radius: 25px;
+            padding: 12px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .boton-inverido:hover {
+            background-color: #FED4DC;
+            border: solid #ffffff 2px !important;
+        }
+        
+        .boton-inverido:focus {
+            outline: none;
+            background-color: #FED4DC;
+            box-shadow: 0 0 0 2px #ffffff;
+            border: solid #BE0C4D 2px !important;
+        }
+        
+
+        /* Para escritorios */
+
+        @media screen and (min-width: 1280px) {
+
+        }
+
+
+        /* Para tabletas más pequeñas */
+        @media screen and (min-width: 600px) and (max-width: 1200px) {
+            .banner-verificacion-encuestadores {
+                grid-column: span 6; /* 6 columnas en tablets medianas */
+            }
+            
+            .banner-verificacion-encuestadores .banner-titulo {
+                font-size: var(--fuente4_tablet);
+            }
+            .banner-verificacion-encuestadores .banner-cuerpotexto {
+                font-size: var(--fuente0_tablet);
+            }
+            
+            .banner-verificacion-encuestadores .people-image {
+                right: 0;
+                max-height: 60%;
+            }
+        }
+        
+        /* Para móviles */
+        @media screen and (max-width: 600px) {
+            .banner-verificacion-encuestadores {
+                grid-column: span 12; /* 12 columnas en móviles */
+                min-height: 640px;
+            }
+            
+            .banner-verificacion-encuestadores .banner-content {
+                padding: 48px;
+            }
+            
+            .banner-verificacion-encuestadores .banner-titulo {
+                font-size: var(--fuente4_mobile);
+            }
+            
+            .banner-verificacion-encuestadores .banner-cuerpotexto {
+                font-size: var(--fuente0_mobile);
+            }
+            
+            .banner-verificacion-encuestadores .people-image {
+                right: 10%;
+                top: 35%;
+                max-height: 85%;
+                transform: scale(0.7);
+            }
+            
+            .banner-verificacion-encuestadores .background-image {
+                transform: scale(1.1);
+            }
+        }
+        
+        /* Para móviles pequeños */
+        @media screen and (max-width: 480px) {
+            .banner-verificacion-encuestadores {
+                min-height: 400px;
+            }
+            
+            .banner-verificacion-encuestadores .banner-content {
+                padding: 20px;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+            
+            .banner-verificacion-encuestadores .people-image {
+                right: -15%;
+                max-height: 50%;
+                transform: scale(0.85);
+            }
+        }
+
+        /* Mejoras de accesibilidad */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Banner que ocupa 4 columnas en desktop/iPad y 12 en móvil -->
+        <div class="banner-verificacion-encuestadores" role="banner">
+            <!-- Imagen de fondo (calle) -->
+            <img src="imgs/calle.jpg" alt="Calle con personal operativo realizando encuestas" class="background-image">
+            
+            <!-- Imagen de personas superpuesta -->
+            <img src="imgs/encuestadores.png" alt="Personal operativo oficial con credenciales" class="people-image">
+            
+            <div class="banner-content">
+                <h2 class="banner-titulo">Verifique la identidad del personal operativo</h2>
+                <p class="banner-cuerpotexto">Antes de proporcionar información, confirme que quien realiza la encuesta hace parte del personal autorizado.</p>
+                <a href="#verificacion" class="boton-inverido" aria-label="Verificar identidad del personal operativo">
+                    Verificar credenciales
+                    <span class="sr-only">Sistema oficial de verificación de credenciales</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Aquí puedes añadir otros elementos que ocupen el resto de las columnas si lo deseas -->
+        
+    </div>
+</body>
+</html>
