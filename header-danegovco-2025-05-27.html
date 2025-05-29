@@ -1,0 +1,413 @@
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="https://webtest.dane.gov.co/templates/t3_bs3_blank/css/customSecciones.css">
+<link rel="stylesheet" type="text/css" href="https://webtest.dane.gov.co/t3-assets/dev/templates.t3_bs3_blank.less.bootstrap.less.css">
+
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+	.DANEHeader-container img {
+		max-width: 124px;
+	}
+	.DANEHeader-brand {
+	display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1280px;
+    margin: 5px auto 0;
+    padding: 30px 0;
+	}
+	.DANEHeader-brand-logo {
+	    height: 90px;
+	}
+/* Transversales */
+.DANEHeader-bar {
+  width: 100vw;
+  background-color: #3366cc;
+  padding: 5px 0;
+}
+
+.clusterEnlaces {
+	justify-content: flex-end !important;
+    display: flex;
+}
+.clusterEnlaces .btn-link {
+    font-family: "Open Sans";
+    font-size: 15px;
+    color: white;
+    font-weight: normal;
+    margin-left: 4px;
+    border-radius: 4px;
+}
+.clusterEnlaces .btn-link:hover {
+    background: #1f4082;
+}
+.clusterEnlaces .btn-link:focus {
+ outline: none;
+}
+.clusterEnlaces .btn-link:focus-visible{
+    outline: none;
+    box-shadow: 0 0 0 3px #fff;
+    border-color: #005e16;
+}
+.fecha-dane {
+	justify-content: flex-end !important;
+    display: flex;
+}
+.gtranslate_wrapper {margin: 0 0 16px 0 !important; justify-content: flex-end !important; display: flex;}
+.gtranslate_wrapper .notranslate {
+    background-color: #631028;
+    vertical-align: middle;
+    color: white !important;
+    padding: 6px !important;
+    border-radius: 2px;
+    margin: 4px 0 0 4px;
+	border: 2px solid #631028;
+    transition-duration: .1s;
+}
+.gtranslate_wrapper .notranslate:hover {
+	background-color: #a7113d;
+}
+.gtranslate_wrapper .notranslate:focus {
+ outline: none;
+}
+.gtranslate_wrapper .notranslate:focus-visible {
+    box-shadow: 0 0 0 3px #a7113d;
+    border-color: #fff;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+  .DANEHeader-bar {
+    padding: 0.5vw 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .DANEHeader-bar {
+    padding: 1vw 0;
+  }
+.clusterEnlaces {
+	justify-content: center !important;
+	display: grid;
+}
+.clusterEnlaces .btn-link {
+    width: 94vw !important;
+}
+}
+
+.DANEHeader-bar-logo {
+  height: 27px;
+  min-height: 27px;
+  min-width: 135px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+  .DANEHeader-bar-logo {
+    height: 2vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .DANEHeader-bar-logo {
+    height: 7vw;
+  }
+}
+
+.DANEHeader-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+  .DANEHeader-container {
+    padding: 0 1vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .DANEHeader-container {
+    padding: 0 3vw;
+  }
+}
+
+.DANEHeader-brand {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1280px;
+  margin: 5px auto 0;
+  padding: 30px 0;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+  .DANEHeader-brand {
+    padding: 3vw 5vw;
+    margin-top: 0.5vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .DANEHeader-brand {
+    padding: 3vw 5vw;
+    margin-top: 1vw;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .DANEHeader-brand-logo {
+    padding-bottom: 3vw;
+  }
+}
+
+.DANEHeader-brand-logo img {
+  height: 112px;
+}
+
+.DANEHeader-brand-logoVida {
+  height: 90px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+  .DANEHeader-brand-logo img {
+    height: 10vw;
+  }
+
+  .DANEHeader-brand-logoVida {
+    height: 6vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .DANEHeader-brand-logo img {
+    height: auto;
+    width: 96vw;
+  }
+
+  .DANEHeader-brand-logoVida {
+    height: 100px;
+    padding-bottom: 16px;
+  }
+}
+
+.DANEHeader-brand-search {
+  position: relative;
+  width: 350px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+  .DANEHeader-brand-search {
+    width: 30vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .DANEHeader-brand-search {
+    width: 90vw;
+    display: contents;
+  }
+}
+
+.DANEHeader-brand-search a {
+  width: fit-content;
+  text-align: right;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 400;
+}
+
+.DANEHeader-brand-search input[type="text"] {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 400;
+  color: #535353;
+  font-size: 14px;
+  padding: 6px 40px 6px 16px;
+  width: 100%;
+  border: 1px solid #535353;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+  .DANEHeader-brand-search input[type="text"] {
+    font-size: 1.3vw;
+    padding: 0.7vw 3.7vw 0.6vw 1.4vw;
+    border-width: 0.1vw;
+    border-radius: 1vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .DANEHeader-brand-search input[type="text"] {
+    font-size: 4.5vw;
+    padding: 1.5vw 10vw 1.5vw 2vw;
+    border-width: 0.2vw;
+    border-radius: 1vw;
+  }
+}
+
+.DANEHeader-brand-search input[type="text"]:focus,
+.DANEHeader-brand-search input[type="text"]:focus-visible {
+  border: 2px solid #3366cc;
+}
+
+.DANEHeader-brand-search input[type="submit"],
+.DANEHeader-brand-search input[type="button"] {
+  background-image: url("imgs/icon-search.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  background-color: #3366cc;
+  font-size: 0;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 25px;
+  background-size: 14px;
+  height: 25px;
+  right: 4px;
+  min-width: 0;
+  padding: 0;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+  .DANEHeader-brand-search input[type="submit"],
+  .DANEHeader-brand-search input[type="button"] {
+    width: 2vw;
+    background-size: 1.2vw;
+    height: 2vw;
+    right: 0.4vw;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .DANEHeader-brand-search input[type="submit"],
+  .DANEHeader-brand-search input[type="button"] {
+    width: 3vw;
+    background-size: 3vw;
+    height: 3vw;
+    right: 1vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .DANEHeader-brand-search input[type="submit"],
+  .DANEHeader-brand-search input[type="button"] {
+    width: 4vw;
+    background-size: 3vw;
+    height: 4vw;
+    right: 1vw;
+  }
+}
+
+.DANEHeader-brand-search div {
+  position: relative;
+}
+
+</style>
+
+<div class="DANEHeader-bar">
+	<div class="DANEHeader-container">
+		<div class="row d-flex">
+			<div class="left-content col-xs-12 col-sm-6 col-md-3 col-lg-3">
+				<a href="https://www.gov.co/" target="_blank">
+					<img src="https://cdn.www.gov.co/assets/images/logo.svg" width="124px" alt="Logo Gov.co" class="DANEHeader-bar-logo">
+				</a>				
+			</div>
+			<div class="right-content col-xs-12 col-sm-6 col-md-5 col-md-offset-4 col-lg-8 col-lg-offset-1">
+				<div class="clusterEnlaces">
+					<a href="/index.php/transparencia" class="btn btn-link" style="text-decoration: none;">Transparencia</a>
+					<a href="/index.php/servicios-al-ciudadano" class="btn btn-link" style="text-decoration: none;">Atención y servicio a la ciudadanía
+					</a>
+					<a href="/index.php/servicios-al-ciudadano/tramites/participacion-ciudadana" class="btn btn-link" style="text-decoration: none;">Participa</a>
+					<a href="/index.php/sala-de-prensa" class="btn btn-link" style="text-decoration: none;">Sala de prensa</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+<div role="heading" aria-level="1">
+				<header class="DANEHeader" id="DANEheader">
+					<div class="DANEHeader-brand">
+
+						<!-- Logo Potencia -->
+						<a href="/" title="Departamento Administrativo Nacional de Estadística - DANE">
+							<img class="DANEHeader-brand-logo" src="https://www.dane.gov.co/files/images/logos/logo-dane.svg" alt="Logo Departamento Administrativo Nacional de Estadística - DANE">
+						</a>
+						<div class="DANEHeader-brand-search">
+
+
+<div class="fecha-dane">
+	<script language="JavaScript">
+		function spanishDate(d){
+			var weekday=["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+			var monthname=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+			return weekday[d.getDay()]+" "+d.getDate()+" de "+monthname[d.getMonth()].toLowerCase()+" de "+d.getFullYear()
+		}
+		var d = new Date();
+		document.write(spanishDate(d));
+	</script>
+</div>
+<div class="idioms-block">
+	<div class="gtranslate_wrapper gt_container-mf15k3" id="gt-wrapper-221">
+		<a href="#" title="English" data-gt-lang="en" class="glink nturl notranslate" style="text-decoration: none;">EN</a>
+		<a href="#" title="Español" data-gt-lang="es" class="glink nturl notranslate gt-current-lang" style="text-decoration: none;">ES</a>
+	</div>
+</div>
+
+
+							<div>
+								<!-- Agregar acción de búsqueda -->
+								<label for="idSearch" class="hidden">Buscar en el DANE</label>
+								<input id="idSearch" type="text" size="20" name="k" placeholder="Buscar" class="DANEHeader-brand-search-input">
+								<input id="btnSearch" type="button" value="Buscar" aria-label="Buscar" class="DANEHeader-brand-search-button">
+							</div>
+						</div>
+					</div>
+				</header>
+			</div>
