@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organigrama DANE Responsive</title>
+<style>
+    /* --- RESET Y ESTILOS BASE --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; }
+
+    /* --- NUEVO CONTENEDOR (SOLUCIÓN SCROLL) --- */
+    .chart-wrapper {
+        width: 100%;
+        overflow-x: auto; /* Permite scroll horizontal si no cabe */
+        text-align: center; /* Centra el organigrama si es más pequeño que la pantalla */
+        padding-bottom: 20px; /* Espacio para la barra de scroll */
+    }
+
+    /* Modificamos .org-chart para que no fuerce el ancho del viewport */
+    .org-chart {
+        display: inline-flex; /* Se ajusta al tamaño real del contenido, no al de la pantalla */
+        direction: ltr; /* Asegura la dirección de izquierda a derecha */
+        padding: 0 20px; /* Un poco de margen interno */
+    }
+
+    /* --- LÓGICA DEL ÁRBOL (Desktop) --- */
+    .org-chart ul {
+        padding-top: 20px; 
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+
+    .org-chart li {
+        float: left; text-align: center;
+        list-style-type: none;
+        position: relative;
+        padding: 20px 10px 0 10px;
+        transition: all 0.5s;
+    }
+
+    /* LÍNEAS CONECTORAS */
+    .org-chart li::before, .org-chart li::after {
+        content: '';
+        position: absolute; top: 0; right: 50%;
+/*        border-top: 2px solid #999;*/
+        width: 50%; height: 20px;
+    }
+    .org-chart li::after {
+        right: auto; left: 50%;
+        border-left: 2px solid #999;
+    }
+    .org-chart li:only-child::after, .org-chart li:only-child::before {
+        display: none;
+    }
+    .org-chart li:only-child { padding-top: 0;}
+    .org-chart li:first-child::before, .org-chart li:last-child::after {
+        border: 0 none;
+    }
+    .org-chart li:last-child::before{
+/*        border-right: 2px solid #999;*/
+        border-radius: 0 5px 0 0;
+    }
+    .org-chart li:first-child::after{
+        border-radius: 5px 0 0 0;
+    }
+    .org-chart ul ul::before {
+        content: '';
+        position: absolute; top: 0; left: 50%;
+        border-left: 2px solid #999;
+        width: 0; height: 20px;
+    }
+
+    /* --- ESTILO DE LOS NODOS --- */
+    .node {
+        display: inline-block;
+        padding: 10px 12px;
+        text-decoration: none;
+        color: #fff;
+        font-size: 13px;
+        border-radius: 4px;
+        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
+        min-width: 130px; 
+        max-width: 180px; 
+        vertical-align: top;
+        white-space: normal; /* Permite que el texto baje de línea */
+        line-height: 1.4;
+    }
+
+    /* COLORES */
+    .lvl-1 .node { background: #0943b5; font-weight: normal; font-size: 15px; }
+    .lvl-2 > .node { background: #6A042C; font-weight: bold; font-size: 15px; border: 1px solid #490414;}
+    .lvl-3 > .node { background: #dfa8b8; font-weight: bold; color: #490414; border: 1px solid #490414;}
+    
+    /* Grupos laterales */
+    .side-group > .node { background: #f1e1a3; color: #333; border: 1px dashed #666; font-weight: bold; position: relative; z-index: 1;}
+    .side-item .node {
+        background: #546e7a;
+        font-size: 11px;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Nivel 4 y 5 */
+    .lvl-4 .node { background: #FAF4EF; color: #490414; border: 1px solid #490414; position: relative; z-index: 1; font-size: 15px;} 
+    .lvl-5 .node {
+        background: #ffffff;
+        font-size: 11px;
+        position: relative;
+        z-index: 1;
+        font-size: 15px;
+        border: none;
+        margin-top: 6px;
+        border: 1px solid #490414;
+    }
+
+
+/* --- VISTA MÓVIL (ÁRBOL LIMPIO) --- */
+    @media (max-width: 1024px) {
+        .chart-wrapper { overflow-x: hidden; }
+        .org-chart { display: block; width: 100%; }
+        
+        /* Reseteamos el Flexbox para que sea vertical */
+        .org-chart ul {
+            display: block;
+            padding-top: 0;
+            padding-left: 20px; /* Indentación para la jerarquía */
+            position: relative;
+        }
+
+        /* Reseteamos los LI para que sean bloques apilados */
+        .org-chart li {
+            width: 100%;
+            text-align: left;
+            padding: 0;
+/*            margin-bottom: 5px;*/
+            float: none;
+            display: block;
+            border: none; /* Quitamos bordes antiguos */
+            position: relative;
+            /* padding-left: 30px; Espacio para dibujar las líneas conectoras */
+            box-sizing: border-box;
+        }
+
+        /* Ocultamos las líneas complejas de escritorio */
+        .org-chart li::before, .org-chart li::after, .org-chart ul ul::before {
+            display: none; 
+        }
+
+        /* --- DIBUJANDO LAS NUEVAS LÍNEAS MÓVILES --- */
+        
+        /* 1. Línea Vertical (Tronco) */
+        /* Se dibuja a la izquierda del elemento, de arriba a abajo */
+        .org-chart ul li::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 100%; /* Por defecto va hasta abajo para conectar con el siguiente hermano */
+            background: #ccc;
+        }
+
+        /* 2. Línea Horizontal (Rama) */
+        /* Conecta el tronco con la tarjeta (nodo) */
+        .org-chart ul li::after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 17px; /* Altura aproximada de la mitad de la primera línea de texto */
+            left: 0;
+            width: 30px; /* Largo de la rama hasta tocar la tarjeta */
+            height: 2px;
+            background: #ccc;
+        }
+
+        /* 3. EL TRUCO VISUAL (Limpiar el último hijo) */
+        /* Si es el último elemento de la lista, la línea vertical NO debe seguir bajando.
+           La cortamos justo a la altura de la rama horizontal (25px). */
+        .org-chart ul li:last-child::before {
+            height: 17px; /* 25px del top + 2px del grosor de la línea */
+        }
+
+        /* Ajustes visuales para la tarjeta en móvil */
+        .node { 
+            width: 100%; 
+            max-width: none;
+            text-align: left; 
+            margin-bottom: 5px;
+            /* Aseguramos que el texto no rompa el diseño */
+            white-space: normal;
+        }
+
+        /* EXCEPCIÓN: El Nivel 1 (Presidencia) no necesita líneas a su izquierda */
+        .org-chart > ul > li {
+            padding-left: 0;
+        }
+        .org-chart > ul > li::before,
+        .org-chart > ul > li::after {
+            display: none;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="chart-wrapper">
+    <div class="org-chart">
+        <ul>
+            <li class="lvl-1">
+                <div class="node">Presidencia de la República</div>
+                <ul>
+                    <li class="lvl-2">
+                        <div class="node">DANE</div>
+                        <ul>
+                            <li class="lvl-3">
+                                <div class="node">Despacho de la Dirección</div>
+                                
+                                <ul>
+                                    <li class="side-group">
+                                        <div class="node">Entidades Adscritas y Comités</div>
+                                        <ul>
+                                            <li class="side-item"><div class="node">Fondo Rotatorio DANE - FONDANE</div></li>
+                                            <li class="side-item"><div class="node">Instituto Geográfico Agustín Codazzi - IGAC</div></li>
+                                            <li class="side-item">
+                                                <div class="node">Órganos de Asesoría</div>
+                                                <ul>
+                                                    <li><div class="node">Comisión de Personal</div></li>
+                                                    <li><div class="node">Comité Coord. Control Interno</div></li>
+                                                    <li><div class="node">Comité Gestión y Desempeño</div></li>
+                                                    <li><div class="node">Sistema de Ética Estadística - SETE</div></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="lvl-4">
+                                        <div class="node">Despacho Subdirección</div>
+                                        <ul>
+                                            <li class="lvl-5"><div class="node">Dirección de Metodología y Producción Estadística - DIMPE</div></li>
+                                            <li class="lvl-5"><div class="node">DDirección de Síntesis y Cuentas Nacionales - DSCN</div></li>
+                                            <li class="lvl-5"><div class="node">Dirección de Censos y Demografía - DCD</div></li>
+                                            <li class="lvl-5"><div class="node">Dirección de Geoestadística - DIG</div></li>
+                                            <li class="lvl-5"><div class="node">Dirección de Regulación, Planeación, Estandarización y Normalización - DIRPEN</div></li>
+                                            <li class="lvl-5"><div class="node">Dirección de Recolección y Acopio - DRA</div></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="lvl-4">
+                                        <div class="node">Secretaría General</div>
+                                    </li>
+
+                                    <li class="lvl-4">
+                                        <div class="node">Direcciones Territoriales</div>
+                                        <ul>
+                                            <li class="lvl-5"><div class="node">Centro (Bogotá D. C.)</div></li>
+                                            <li class="lvl-5"><div class="node">Sur Occidente (Villavicencio, Meta)</div></li>
+                                            <li class="lvl-5"><div class="node">Centro Oriente (Bucaramanga, Norte de Santander)</div></li>
+                                            <li class="lvl-5"><div class="node">Noroccidente (Medellín, Antuioquia)</div></li>
+                                            <li class="lvl-5"><div class="node">Norte (Barranquilla, Atlántico)</div></li>
+                                            <li class="lvl-5"><div class="node">Suroccidente (Cali, Valle del Cauca)</div></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="side-group">
+                                        <div class="node">Oficinas Asesoras</div>
+                                        <ul>
+                                            <li class="side-item"><div class="node">Oficina Asesora de Planeación - OPLAN</div></li>
+                                            <li class="side-item"><div class="node">Oficina Asesora Jurídica -OAJ</div></li>
+                                            <li class="side-item"><div class="node">Oficina de Sistemas - OSIS</div></li>
+                                            <li class="side-item"><div class="node">Oficina de Control Interno - OCI</div></li>
+                                            <li class="side-item"><div class="node">Oficina de Control Disciplinario Interno OCID</div></li>
+                                            <li class="side-item"><div class="node">Dirección de Dfusión y Cultura Estadística - DICE</div></li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
