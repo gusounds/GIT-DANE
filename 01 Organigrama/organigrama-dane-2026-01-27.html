@@ -216,6 +216,9 @@
             .org-chart li::before, .org-chart li::after { border-top: transparent; }
             .org-chart li:last-child::before { border-right: transparent; }    
             .mensaje-instruccional { display: none; }
+
+            #territoriales, #adscritas, #direcciones {margin-top: 20px;}
+
             #ul-padre { padding-left: 0; }
 
             /* Estilos de Lista */
@@ -249,12 +252,12 @@
                 display: block;
                 position: absolute;
                 top: 17px; left: 0;
-                width: 30px; height: 2px;
+                width: 30px; height: 0px;
                 background: #ccc;
             }
 
             /* Corte de línea en último elemento */
-            .org-chart ul li:last-child::before { height: 17px; }
+            .org-chart ul li:last-child::before { height: 25px; }
 
             .node { 
                 width: 100%; 
