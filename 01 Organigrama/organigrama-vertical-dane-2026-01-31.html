@@ -1,0 +1,493 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Estructura Organizacional del Departamento Nacional de Estadística (DANE) de Colombia.">
+    <title>Estructura Organizacional - DANE</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "GovernmentOrganization",
+      "name": "Departamento Nacional de Estadística - DANE",
+      "alternateName": "DANE",
+      "url": "https://www.dane.gov.co",
+      "parentOrganization": {
+        "@type": "GovernmentOrganization",
+        "name": "Presidencia de la República de Colombia"
+      }
+    }
+    </script>
+
+    <style>
+        /* =========================================
+           1. FUENTES Y VARIABLES
+           ========================================= */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+        :root {
+            /* Paleta Institucional */
+            --color-presidencia: #2C43B5;
+            --color-dane: #6A042C;
+            --color-direccion: #dfa8b8;
+            --color-headers: #F1E2D7;
+            --color-child-bg: #FAF4EF;
+            --color-border: #490414;
+            --color-text-main: #333333;
+            
+            /* UI & Accesibilidad */
+            --color-focus: #005fcc;
+            --color-focus-gob: #fff;
+            --radius-card: 8px;
+            --shadow-card: 0 2px 24px rgba(0,0,0,0.09);
+            --transition-speed: 0.2s;
+        }
+
+        /* =========================================
+           2. CONFIGURACIÓN BASE
+           ========================================= */
+        /* Reset compatible con Bootstrap */
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Roboto', sans-serif; /* Prioridad sobre fuente Bootstrap */
+            color: var(--color-text-main);
+            padding: 20px 10px;
+        }
+
+        a { text-decoration: none; }
+
+        /* =========================================
+           3. SISTEMA DE LAYOUT (GRID PERSONALIZADO)
+           ========================================= */
+        .directory-wrapper {
+            max-width: 900px; 
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Contenedor Flex para distribución en columnas */
+        .two-columns {
+            display: flex;
+            gap: 25px;
+            width: 100%;
+            margin-bottom: 25px;
+            padding-left: 24px;
+        }
+
+        .column-stack {
+            flex: 1; /* 50% ancho */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =========================================
+           4. COMPONENTE: TARJETA (NODE)
+           ========================================= */
+        .node {
+            display: block;
+            width: 100%;
+            padding: 18px 22px;
+            margin-bottom: 18px;
+            font-family: "Montserrat", sans-serif;
+            font-size: 14px;
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow-card);
+            line-height: 1.4;
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            position: relative;
+            text-align: left; 
+            color: #fff;
+            cursor: default;
+        }
+
+        /* Estados de Interacción */
+        .node:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+        }
+
+        /* Focus Visible para Accesibilidad (Teclado) */
+        
+        .lvl-1 a:focus-visible {
+            outline: 3px solid var(--color-focus-gob);
+            outline-offset: 2px;
+            z-index: 10;
+            border-radius: 4px;
+        }
+        .node:focus-visible, a:focus-visible {
+            outline: 3px solid var(--color-focus);
+            outline-offset: 2px;
+            z-index: 10;
+        }
+
+        /* Tipografía Interna */
+        .node-title {
+            display: block;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .node-title strong { font-weight: 800; }
+
+        .node-person {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .node-job {
+            display: block;
+            font-size: 12px;
+            font-style: italic;
+            opacity: 0.9;
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        /* =========================================
+           5. ESTILOS DE JERARQUÍA (NIVELES)
+           ========================================= */
+        
+        /* Nivel 1: Presidencia */
+        .lvl-1 { 
+            background-color: var(--color-presidencia); 
+            text-align: left; 
+            cursor: pointer; 
+        }
+        .lvl-1 .node-title { font-size: 18px; margin-bottom: 0; border: none; }
+        .lvl-1 a { color: #fff; display: block; width: 100%; height: 100%; }
+
+        /* Nivel 2: Entidad Principal */
+        .lvl-2 { 
+            background-color: var(--color-dane); 
+            text-align: left; 
+            border: 1px solid var(--color-border); 
+        }
+        .lvl-2 .node-title { font-size: 20px; text-transform: uppercase; margin-bottom: 0; }
+
+        /* Nivel 3: Dirección General */
+        .lvl-3 { 
+            background-color: var(--color-direccion); 
+            color: var(--color-border); 
+            border: 1px solid var(--color-border); 
+        }
+        .lvl-3 .node-person { border-top-color: rgba(73, 4, 20, 0.2); }
+
+        /* Nivel 4: Encabezados de Sección */
+        .lvl-header { 
+            background-color: var(--color-headers); 
+            color: var(--color-border); 
+            border: 1px solid var(--color-border); 
+            margin-top: 15px; 
+        }
+        .lvl-header .node-person { border-top-color: rgba(73, 4, 20, 0.2); }
+
+        /* Nivel 5: Nodos Operativos (Standard Child) */
+        .lvl-child { 
+            background-color: var(--color-child-bg); 
+            color: var(--color-text-main); 
+            border: 1px solid #e2cece; 
+        }
+        .lvl-child .node-title { color: var(--color-dane); font-weight: normal; }
+        .lvl-child .node-person { border-top-color: rgba(0,0,0,0.1); color: #000; }
+        .lvl-child .node-job { color: #555; }
+
+        /* =========================================
+           6. VARIACIONES VISUALES
+           ========================================= */
+        
+        /* Oficinas Asesoras (Fondo Blanco) */
+        .style-white { background-color: #fff; }
+        
+        /* Adscritas (Borde discontinuo) */
+        .style-adscrita { 
+            background-color: #fff6e6; 
+            border: 1px dashed var(--color-border); 
+            color: var(--color-border);
+        }
+        .style-coordinacion { 
+            background-color: #f2f6ff; 
+            border: 1px dashed var(--color-border); 
+            color: var(--color-border);
+        }
+        .style-adscrita .node-title { color: var(--color-border); }
+        .style-adscrita .node-person { border-top-color: rgba(73, 4, 20, 0.2); }
+
+        /* Territoriales (Verde suave) */
+        .style-territorial {
+            background-color: #fcfff3;
+            color: #2e4a1a;
+            border: 1px solid #cedac2;
+        }
+        .style-territorial .node-person { border-top-color: rgba(46, 74, 26, 0.2); }
+
+        /* Órganos de Asesoría (Azul institucional suave) */
+        .style-organo {
+            background-color: #e8eaf6;
+            color: #1a237e;
+            border: 1px solid #c5cae9;
+        }
+        .style-organo .node-title { color: #1a237e; }
+
+        /* Headers Específicos */
+        .header-adscritas { background-color: #f1e1a3; color: var(--color-border); border: 1px dashed var(--color-border); font-weight: bold;}
+        .header-coordinacion {background-color: #d0e0fd;}
+        .header-territorial { background-color: #cedac2; color: #2e4a1a; font-weight: bold;}
+        .header-asesoras { background-color: #d0e0fd; color: #173159; font-weight: bold;}
+        .header-asesoras .node-person { border-top-color: rgba(23, 49, 89, 0.2); }
+
+        /* Utilidades de Texto */
+        .num { font-weight: bold; margin-right: 5px; opacity: 0.8; }
+        .sup-num { font-size: 0.8em; vertical-align: super; margin-right: 3px; }
+
+        /* Mensaje UI */
+        .mensaje-instruccional {
+            padding: 15px 20px; 
+            border-radius: 8px; 
+            font-size: 14px; 
+            background-color: #e3f2fd; 
+            border-left: 5px solid #173159; 
+            color: #173159; 
+            margin-bottom: 25px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px;
+        }
+        .icono-info {
+            background: #173159; 
+            color: #fff; 
+            width: 24px; 
+            height: 24px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: bold; 
+            font-family: serif; 
+            flex-shrink: 0;
+        }
+
+        /* =========================================
+           7. MEDIA QUERIES (RESPONSIVE)
+           ========================================= */
+        @media (max-width: 768px) {
+            .two-columns {
+                flex-direction: column;
+                gap: 0;
+            }
+            .node { padding: 15px 18px; }
+            .directory-wrapper { padding: 0 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="directory-wrapper" role="main">
+
+        <div class="node lvl-1">
+            <a href="https://www.presidencia.gov.co/" target="_blank" rel="noopener">
+                <span class="node-title">Presidencia de la República de Colombia</span>
+            </a>
+        </div>
+
+        <div class="node lvl-2" tabindex="0">
+            <span class="node-title">Departamento Nacional de Estadística - DANE</span>
+        </div>
+
+        <div class="node lvl-3" tabindex="0">
+            <span class="node-title">1. Despacho de la Dirección</span>
+            <span class="node-person">Beatriz Piedad Urdinola Contreras</span>
+            <span class="node-job">Directora General</span>
+        </div>
+
+        <div class="node lvl-header" tabindex="0">
+            <span class="node-title"><span class="num">1.</span> Despacho Subdirección</span>
+            <span class="node-person">Andrea Ramírez Pisco</span>
+            <span class="node-job">Subdirectora</span>
+        </div>
+
+        <div class="two-columns">
+            
+            <div class="column-stack">
+                <div class="node lvl-child" tabindex="0">
+                    <span class="node-title"><span class="num">2.1.</span> <strong>Dirección de Metodología y Producción Estadística - DIMPE</strong></span>
+                    <span class="node-person">César Mauricio López Alfonso</span>
+                    <span class="node-job">Director</span>
+                </div>
+                
+                <div class="node lvl-child" tabindex="0">
+                    <span class="node-title"><span class="num">2.2.</span> <strong>Dirección de Síntesis y Cuentas Nacionales - DSCN</strong></span>
+                    <span class="node-person">Juan Pablo Cardoso Torres</span>
+                    <span class="node-job">Director</span>
+                </div>
+
+                <div class="node lvl-child" tabindex="0">
+                    <span class="node-title"><span class="num">2.3.</span> <strong>Dirección de Censos y Demografía - DCD</strong></span>
+                    <span class="node-person">Javier Plazas Echeverri</span>
+                    <span class="node-job">Director</span>
+                </div>
+            </div>
+
+            <div class="column-stack">
+                <div class="node lvl-child" tabindex="0">
+                    <span class="node-title"><span class="num">2.4.</span> <strong>Dirección de Geoestadística - DIG</strong></span>
+                    <span class="node-person">Elkin Ramírez</span>
+                    <span class="node-job">Director</span>
+                </div>
+
+                <div class="node lvl-child" tabindex="0">
+                    <span class="node-title"><span class="num">2.5.</span> <strong>Dirección de Regulación, Planeación, Estandarización y Normalización - DIRPEN</strong></span>
+                    <span class="node-person">Carlos Alberto Hernández Lozano</span>
+                    <span class="node-job">Director</span>
+                </div>
+
+                <div class="node lvl-child" tabindex="0">
+                    <span class="node-title"><span class="num">2.6.</span> <strong>Dirección de Recolección y Acopio - DRA</strong></span>
+                    <span class="node-person">Diana María Rojas Ordus</span>
+                    <span class="node-job">Directora</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="node lvl-header" tabindex="0">
+            <span class="node-title"><span class="num">3.</span> Secretaría General</span>
+            <span class="node-person">Álvaro Fernando Guzmán Lucero</span>
+            <span class="node-job">Secretario General</span>
+        </div>
+
+
+        <div class="node lvl-header" tabindex="0">
+            <span class="node-title"><span class="num">4.</span> Oficinas Asesoras</span>
+        </div>
+
+        <div class="two-columns">
+            <div class="column-stack">
+                <div class="node lvl-child style-white" tabindex="0">
+                    <span class="node-title"><span class="num">4.1.</span> <strong>Oficina Asesora de Planeación - OPLAN</strong></span>
+                    <span class="node-person">Claudia Díaz Hernández</span>
+                    <span class="node-job">Directora</span>
+                </div>
+                <div class="node lvl-child style-white" tabindex="0">
+                    <span class="node-title"><span class="num">4.2.</span> <strong>Oficina Asesora Jurídica - OAJ</strong></span>
+                    <span class="node-person">Andrea Catalina Zota Bernal</span>
+                    <span class="node-job">Directora</span>
+                </div>
+                <div class="node lvl-child style-white" tabindex="0">
+                    <span class="node-title"><span class="num">4.3.</span> <strong>Oficina de Sistemas - OSIS</strong></span>
+                    <span class="node-person">Luis Martin Barrera Pino</span>
+                    <span class="node-job">Director</span>
+                </div>
+            </div>
+            
+            <div class="column-stack">
+                <div class="node lvl-child style-white" tabindex="0">
+                    <span class="node-title"><span class="num">4.4.</span> <strong>Oficina de Control Interno - OCI</strong></span>
+                    <span class="node-person">Yuly Dayan Quiceno Russi</span>
+                    <span class="node-job">Directora</span>
+                </div>
+                <div class="node lvl-child style-white" tabindex="0">
+                    <span class="node-title"><span class="num">4.5.</span> <strong>Oficina de Control Disciplinario Interno - OCID</strong></span>
+                    <span class="node-person">Ángela Patricia Santiago Enciso</span>
+                    <span class="node-job">Directora</span>
+                </div>
+                <div class="node lvl-child" tabindex="0">
+                    <span class="node-title"><span class="num">4.6.</span> <strong>Dirección de Difusión y Cultura Estadística - DICE</strong></span>
+                    <span class="node-person">Diana María Bohórquez Losada</span>
+                    <span class="node-job">Directora</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="node lvl-header header-territorial" tabindex="0">
+            <span class="node-title"><span class="num">5.</span> Direcciones Territoriales</span>
+        </div>
+
+        <div class="two-columns">
+            <div class="column-stack">
+                <div class="node style-territorial" tabindex="0">
+                    <span class="node-title"><span class="num">5.1.</span> Centro (Bogotá D. C.)</span>
+                    <span class="node-person">Ana Lucia Largo</span>
+                    <span class="node-job">Directora</span>
+                </div>
+                <div class="node style-territorial" tabindex="0">
+                    <span class="node-title"><span class="num">5.2.</span> Sur Occidente (Villavicencio, Meta)</span>
+                    <span class="node-person">Ronald Bueno Trujillo</span>
+                    <span class="node-job">Director</span>
+                </div>
+                <div class="node style-territorial" tabindex="0">
+                    <span class="node-title"><span class="num">5.3.</span> Centro Oriente (Bucaramanga, Norte de Santander)</span>
+                    <span class="node-person">Álvaro Antonio Hernández</span>
+                    <span class="node-job">Director</span>
+                </div>
+            </div>
+            
+            <div class="column-stack">
+                <div class="node style-territorial" tabindex="0">
+                    <span class="node-title"><span class="num">5.4.</span> Noroccidente (Medellín, Antioquia)</span>
+                    <span class="node-person">Paola Fernanda Medina</span>
+                    <span class="node-job">Directora</span>
+                </div>
+                <div class="node style-territorial" tabindex="0">
+                    <span class="node-title"><span class="num">5.5.</span> Norte (Barranquilla, Atlántico)</span>
+                    <span class="node-person">Edgar Fernando Amezquita</span>
+                    <span class="node-job">Director</span>
+                </div>
+                <div class="node style-territorial" tabindex="0">
+                    <span class="node-title"><span class="num">5.6.</span> Suroccidente (Cali, Valle del Cauca)</span>
+                    <span class="node-person">Cadid Asdrubal Saavedra</span>
+                    <span class="node-job">Director</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="node lvl-header header-adscritas" tabindex="0">
+            <span class="node-title"><span class="num">6.</span> Órganos adscritos</span>
+        </div>
+
+        <div class="two-columns">
+            <div class="column-stack">
+                <div class="node style-adscrita" tabindex="0">
+                    <span class="node-title"><span class="num">6.1.</span> Fondo Rotatorio DANE - <strong>FONDANE</strong></span>
+                </div>
+                <div class="node style-adscrita" tabindex="0">
+                    <span class="node-title"><span class="num">6.2.</span> Instituto Geográfico Agustín Codazzi - <strong>IGAC</strong></span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="node lvl-header header-coordinacion" tabindex="0">
+            <span class="node-title"><span class="num">*</span> Órganos de asesoria y coordinación</span>
+        </div>
+
+        <div class="two-columns">
+            <div class="column-stack">
+                <div class="node style-coordinacion" tabindex="0">
+                    <span class="node-title"><span class="sup-num">* 1</span> Comisión de Personal</span>
+                </div>
+                <div class="node style-coordinacion" tabindex="0">
+                    <span class="node-title"><span class="sup-num">* 2</span> Comité de coordinación del Sistema de Control Interno</span>
+                </div>
+                <div class="node style-coordinacion" tabindex="0">
+                    <span class="node-title"><span class="sup-num">* 3</span> Comité Institucional de Gestión y Desempeño</span>
+                </div>
+                <div class="node style-coordinacion" tabindex="0">
+                    <span class="node-title"><span class="sup-num">* 4</span> Sistema de Ética Estadística - <strong>SETE</strong></span>
+                </div>
+            </div>            
+        </div>
+
+    </div>
+
+</body>
+</html>
