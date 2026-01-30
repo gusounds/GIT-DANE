@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Organigrama estructural del Departamento Nacional de Estadística (DANE) de Colombia.">
+    <title>Organigrama DANE - Estructura Organizacional</title>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "GovernmentOrganization",
+      "name": "Departamento Nacional de Estadística - DANE",
+      "parentOrganization": {
+        "@type": "GovernmentOrganization",
+        "name": "Presidencia de la República de Colombia"
+      },
+      "department": [
+        { "@type": "Organization", "name": "Despacho de la Dirección" },
+        { "@type": "Organization", "name": "Secretaría General" },
+        { "@type": "Organization", "name": "Direcciones Territoriales" }
+      ]
+    }
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+        /* --- CONFIGURACIÓN BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --color-lineas: #490414;
+            --color-focus: #005fcc; /* Color para el foco de teclado */
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        /* Contenedor con desplazamiento horizontal automático para pantallas pequeñas */
+        .chart-wrapper {
+            width: 95%;
+            margin: 0 auto;
+            overflow-x: auto;
+            text-align: center;
+            padding: 40px 40px 60px 40px;
+            border: 1px dashed #b1b1b1;
+            border-radius: 12px;
+            box-shadow: inset 2px 2px 45px rgba(0, 0, 0, 0.1);
+        }
+
+        .org-chart {
+            display: inline-flex;
+            direction: ltr;
+            padding: 0 20px;
+        }
+
+        /* --- ESTRUCTURA DEL ÁRBOL (VISTA ESCRITORIO) --- */
+        .org-chart ul {
+            padding-top: 20px; 
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .org-chart li {
+            float: left; 
+            text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 20px 10px 0 10px;
+            transition: all 0.5s;
+        }
+
+        /* --- CONECTORES Y LÍNEAS --- */
+        /* Líneas horizontales superiores */
+        .org-chart li::before, .org-chart li::after {
+            content: '';
+            position: absolute; top: 5px; right: 50%;
+            border-top: 1px solid var(--color-lineas);
+            width: 50%; height: 20px;
+        }
+        .org-chart li::after {
+            right: auto; left: 50%;
+            border-left: 1px solid var(--color-lineas);
+        }
+        
+        /* Excepciones para primeros y últimos hijos (limpieza de líneas) */
+        .org-chart li:only-child::after, .org-chart li:only-child::before { display: none; }
+        .org-chart li:only-child { padding-top: 0;}
+        .org-chart li:first-child::before, .org-chart li:last-child::after { border: 0 none; }
+        
+        /* Curvas de conexión */
+        .org-chart li:last-child::before {
+            border-right: 1px solid var(--color-lineas);
+            border-radius: 0 5px 0 0;
+        }
+        .org-chart li:first-child::after {
+            border-radius: 5px 0 0 0;
+        }
+        
+        /* Línea vertical descendente */
+        .org-chart ul ul::before {
+            content: '';
+            position: absolute; top: -5px; left: 50%;
+            border-left: 1px solid var(--color-lineas);
+            width: 0; height: 30px;
+        }
+
+        /* --- ESTILOS DE LOS NODOS (TARJETAS) --- */
+        .node {
+            display: inline-block;
+            padding: 10px 12px;
+            text-decoration: none;
+            color: #fff;
+            font-family: "Montserrat", sans-serif;
+            font-size: 13px;
+            border-radius: 4px;
+            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
+            min-width: 130px; 
+            max-width: 180px !important; 
+            vertical-align: top;
+            white-space: normal;
+            line-height: 1.4;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: default; /* Indica que es un elemento informativo */
+        }
+
+        /* Interacción: Hover y Focus */
+        .node:hover {
+            transform: translateY(-5px); 
+            transition: transform 0.2s ease-out;
+        }
+
+        /* Accesibilidad: Indicador de foco solo al usar teclado */
+        .node:focus-visible, #gobierno a:focus-visible {
+            outline: 2px solid var(--color-focus);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 4px rgba(0, 95, 204, 0.2);
+            z-index: 10; /* Asegura que el foco quede por encima */
+        }
+
+        /* Enlaces dentro de nodos */
+        .node a { 
+            color: inherit; 
+            text-decoration: none; 
+            display: block; /* Para que el enlace ocupe todo el nodo */
+        }
+        
+        /* --- PALETA DE COLORES Y JERARQUÍA --- */
+        .lvl-1 .node { color: #490414; font-weight: normal; font-size: 16px; position: relative; z-index: 2; }
+        .lvl-2 > .node { background: #6A042C; font-weight: bold; font-size: 16px; border: 1px solid #490414; }
+        .lvl-3 > .node { background: #dfa8b8; font-weight: bold; color: #490414; border: 1px solid #490414; position: relative; z-index: 2; }
+        
+        /* Identificadores Específicos */
+        #gobierno { background-color: #2C43B5; color: #fff; font-weight: 600; cursor: pointer;}
+        #dane { color: #fff; font-weight: 600; }
+        
+        /* Categorías */
+        #direcciones { background: #F1E2D7; }
+        .direcciones-hijo { background: #FAF4EF; font-family: "Montserrat", sans-serif; }
+        .direcciones-hijo-blanco { background: #fff; font-family: "Montserrat", sans-serif; }
+        
+        #adscritas { background: #f1e1a3; border: dashed 1px #490414 !important; }
+        .adscritas-hijo { border: dashed 1px #490414 !important; background-color: #fff6e6; }
+        
+        #territoriales { background: #cedac2; }
+        .territoriales-hijo { background: #fcfff3 !important; }
+        
+        #asesoria { background-color: #d0e0fd; }
+        .asesoria-hijo { background-color: #f2f6ff; }
+        
+        .ordenamiento { font-weight: 600; }
+
+        /* Grupos Laterales */
+        .side-group > .node { color: #490414; border: 1px solid #490414; font-weight: normal; position: relative; z-index: 1; }
+        .side-item .node { font-size: 13px; position: relative; z-index: 1; border: 1px solid #490414; }
+
+        /* Niveles Inferiores */
+        .lvl-4 .node { color: #490414; border: 1px solid #490414; position: relative; z-index: 1; font-family: "Montserrat", sans-serif; font-size: 16px; } 
+        .lvl-5 .node { position: relative; z-index: 1; font-family: "Montserrat", sans-serif; font-size: 13px; margin-top: 6px; border: 1px solid #490414; }
+
+        #direcciones span, .direcciones-hijo-blanco span, .lvl-5 span {margin-top: 16px; display: block;}
+        #direcciones span em {font-size: 14px; font-weight: 600;}
+        .direcciones-hijo span em, .direcciones-hijo-blanco span em, .lvl-5 span em {font-size: 13px; font-weight: 700;}
+        .lvl-3 span {margin-top: 16px; display: block; font-weight: normal;}
+        .lvl-3 span em {font-size: 14px; font-weight: 600;}
+
+        /* --- MENSAJES DE UI --- */    
+        .mensaje-instruccional {
+            padding: 20px; 
+            border-radius: 12px; 
+            font-size: 14px; 
+            font-family: "Roboto", sans-serif; 
+            background-color: #e3f2fd; 
+            border: 1px solid #173159; 
+            color: #173159; 
+            margin-bottom: 20px; 
+            width: fit-content;
+        }
+        .mensaje-instruccional span {
+            font-weight: 800; 
+            border: 2px solid #173159; 
+            padding: 2px 8px;
+            border-radius: 50%; 
+            margin-right: 8px;
+            display: inline-block;
+        }
+
+        /* --- VISTA MÓVIL (RESPONSIVE) --- */
+        @media (max-width: 1024px) {
+            .chart-wrapper { overflow-x: hidden; }
+            .org-chart { display: block; width: 100%; padding: 0 0; }
+            
+            /* Reinicio de Layout a Bloque Vertical */
+            .org-chart ul {
+                display: block;
+                padding-top: 0;
+                padding-left: 20px;
+                position: relative;
+            }
+
+            /* Ocultar elementos decorativos de escritorio */
+            .org-chart li::before, .org-chart li::after { border-top: transparent; }
+            .org-chart li:last-child::before { border-right: transparent; }    
+            .mensaje-instruccional { display: none; }
+
+            #territoriales, #adscritas, #direcciones {margin-top: 20px;}
+
+            #ul-padre { padding-left: 0; }
+
+            /* Estilos de Lista */
+            .org-chart li {
+                width: 100%;
+                text-align: left;
+                padding: 0;
+                float: none;
+                display: block;
+                border: none;
+                position: relative;
+                box-sizing: border-box;
+            }
+
+            .org-chart li::before, .org-chart li::after, .org-chart ul ul::before { display: none; }
+
+            /* Nuevas líneas conectoras para móvil */
+            /* Línea Vertical */
+            .org-chart ul li::before {
+                content: '';
+                display: block;
+                position: absolute;
+                top: -5px; left: 0;
+                width: 1px; height: 100%;
+                background: var(--color-lineas);
+            }
+
+            /* Línea Horizontal */
+            .org-chart ul li::after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 17px; left: 0;
+                width: 30px; height: 0px;
+                background: #ccc;
+            }
+
+            /* Corte de línea en último elemento */
+            .org-chart ul li:last-child::before { height: 25px; }
+
+            .node { 
+                width: 100%; 
+                max-width: none;
+                text-align: left; 
+                margin-bottom: 5px;
+                white-space: normal;
+            }
+
+            /* Excepción Nivel Superior */
+            .org-chart > ul > li { padding-left: 0; }
+            .org-chart > ul > li::before, .org-chart > ul > li::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <p class="mensaje-instruccional">
+            <span role="img" aria-label="Información">i</span>
+            Haga clic en el organigrama y use las flechas del teclado o <strong>Tab</strong> para navegar. Si usa mouse, puede hacer scroll horizontal para ver todo el contenido.
+        </p>
+    </div>
+
+    <div class="chart-wrapper">
+        <nav class="org-chart" aria-label="Organigrama del DANE">
+            <ul id="ul-padre">
+                <li class="lvl-1">
+                    <div class="node" id="gobierno">
+                        <a href="https://www.presidencia.gov.co/" aria-label="Presidencia de la República de Colombia, ir al sitio web externo" target="_blank" rel="noopener noreferrer">
+                            Presidencia de la República de Colombia
+                        </a>
+                    </div>
+                    <ul>
+                        <li class="lvl-2">
+                            <div class="node" id="dane" tabindex="0">DANE</div>
+                            <ul>
+                                <li class="lvl-3">
+                                    <div class="node" tabindex="0">
+                                        <p><strong>Despacho de la Dirección</strong></p>
+                                        <span>Beatriz Piedad Urdinola Contreras <em>Directora General</em></span>
+                                    </div>
+                                    
+                                    
+                                    <ul>
+                                        <li class="lvl-4">
+                                            <div class="node" id="direcciones" tabindex="0">
+                                                <p>
+                                                    <sup class="ordenamiento">1.</sup> <strong>Despacho Subdirección</strong>
+                                                </p>
+                                                <span>Andrea Ramírez Pisco<br><em>Subdirectora</em></span>
+                                            </div>
+                                            <ul>
+                                                <li class="lvl-5">
+                                                    <div class="node direcciones-hijo" tabindex="0">
+                                                        <p>
+                                                            <sup class="ordenamiento">1.1.</sup><strong> Dirección de Metodología y Producción Estadística - DIMPE</strong>
+                                                        </p>
+                                                        <span>César Mauricio López Alfonso<br><em>Director</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="lvl-5">
+                                                    <div class="node direcciones-hijo" tabindex="0">
+                                                        <p>
+                                                            <sup class="ordenamiento">1.2.</sup> <strong>Dirección de Síntesis y Cuentas Nacionales - DSCN</strong>
+                                                        </p>
+                                                        <span>Juan Pablo Cardoso Torres<br><em>Director</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="lvl-5">
+                                                    <div class="node direcciones-hijo" tabindex="0">
+                                                        <p>
+                                                            <sup class="ordenamiento">1.3.</sup> <strong>Dirección de Censos y Demografía - DCD</strong>
+                                                        </p>
+                                                        <span>Javier Plazas Echeverri<br><em>Director</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="lvl-5">
+                                                    <div class="node direcciones-hijo" tabindex="0">
+                                                        <p>
+                                                            <sup class="ordenamiento">1.4.</sup> <strong>Dirección de Geoestadística - DIG</strong>
+                                                        </p>
+                                                        <span>Elkin Ramírez<br><em>Director</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="lvl-5">
+                                                    <div class="node direcciones-hijo" tabindex="0">
+                                                        <p>
+                                                            <sup class="ordenamiento">1.5.</sup> <strong>Dirección de Regulación, Planeación, Estandarización y Normalización - DIRPEN</strong>
+                                                        </p>
+                                                        <span>Carlos Alberto Hernández Lozano<br><em>Director</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="lvl-5">
+                                                    <div class="node direcciones-hijo" tabindex="0">
+                                                        <p>
+                                                            <sup class="ordenamiento">1.6.</sup> <strong>Dirección de Recolección y Acopio - DRA</strong>
+                                                        </p>
+                                                        <span>Diana María Rojas Ordus<br><em>Director</em></span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="lvl-4">
+                                            <div class="node" id="direcciones" tabindex="0">
+                                                <sup class="ordenamiento">2.</sup> <strong>Secretaría General</strong> 
+                                                <span>Álvaro Fernando Guzmán Lucero<br><em>Secretario General</em></span>
+                                            </div>
+                                        </li>
+                                        <li class="side-group">
+                                            <div class="node" id="direcciones" tabindex="0">
+                                                <p>
+                                                    <sup class="ordenamiento">3.</sup> <strong>Oficinas Asesoras</strong>
+                                                </p>
+                                            </div>
+                                            <ul>
+                                                <li class="side-item">
+                                                    <div class="node direcciones-hijo-blanco" tabindex="0">
+                                                        <p>
+                                                            <sup class="ordenamiento">3.1.</sup> <strong>Oficina Asesora de Planeación - OPLAN</strong>
+                                                        </p>
+                                                        <span>Claudia Díaz Hernández<br><em>Directora</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="side-item">
+                                                    <div class="node direcciones-hijo-blanco" tabindex="0">
+                                                        <p>
+                                                            <sup class="ordenamiento">3.2.</sup> <strong>Oficina Asesora Jurídica - OAJ</strong>
+                                                        </p>
+                                                        <span>Andrea Catalina Zota Bernal<br><em>Directora</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="side-item">
+                                                    <div class="node direcciones-hijo-blanco" tabindex="0">
+                                                        <p>
+                                                            <sup class="ordenamiento">3.3.</sup> <strong>Oficina de Sistemas - OSIS</strong>
+                                                        </p>
+                                                        <span>Luis Martin Barrera Pino<br><em>Director</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="side-item">
+                                                    <div class="node direcciones-hijo-blanco" tabindex="0">
+                                                        <p>
+                                                            <sup class="ordenamiento">3.4.</sup> <strong>Oficina de Control Interno - OCI</strong>
+                                                        </p>
+                                                        <span>Yuly Dayan Quiceno Russi<br><em>Directora</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="side-item">
+                                                    <div class="node direcciones-hijo-blanco" tabindex="0">
+                                                        <p>
+                                                            <sup class="ordenamiento">3.5.</sup> <strong>Oficina de Control Disciplinario Interno - OCID</strong>
+                                                        </p>
+                                                        <span>Ángela Patricia Santiago Enciso<br><em>Directora</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="side-item">
+                                                    <div class="node direcciones-hijo" tabindex="0">
+                                                        <p>
+                                                            <sup class="ordenamiento">3.6.</sup> <strong>Dirección de Difusión y Cultura Estadística - DICE</strong>
+                                                        </p>
+                                                        <span>Diana María Bohórquez Losada<br><em>Directora</em></span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="lvl-4">
+                                            <div class="node" id="territoriales" tabindex="0"><sup class="ordenamiento">4.</sup> <strong>Direcciones Territoriales</strong></div>
+                                            <ul>
+                                                <li class="lvl-5">
+                                                    <div class="node territoriales-hijo" tabindex="0">
+                                                        <sup class="ordenamiento">4.1.</sup> <strong>Centro (Bogotá D. C.)</strong>
+                                                        <span>Ana Lucia Largo<br><em>Directora</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="lvl-5">
+                                                    <div class="node territoriales-hijo" tabindex="0">
+                                                        <sup class="ordenamiento">4.2.</sup> <strong>Sur oriente (Villavicencio, Meta)</strong>
+                                                        <span>Ronald Bueno Trujillo<br><em>Director</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="lvl-5">
+                                                    <div class="node territoriales-hijo" tabindex="0">
+                                                        <sup class="ordenamiento">4.3.</sup> <strong>Centro oriente (Bucaramanga, Norte de Santander)</strong>
+                                                        <span>Álvaro Antonio Hernández Arguello<br><em>Director</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="lvl-5">
+                                                    <div class="node territoriales-hijo" tabindex="0"><sup class="ordenamiento">4.6.</sup> <strong>Sur occidente (Cali, Valle del Cauca)</strong>
+                                                    <span>Cadid Asdrubal Saavedra Castaño<br><em>Director</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="lvl-5">
+                                                    <div class="node territoriales-hijo" tabindex="0">
+                                                        <sup class="ordenamiento">4.4.</sup> <strong>Noroccidente (Medellín, Antioquia)</strong>
+                                                        <span>Paola Fernanda Medina Tovar<br><em>Director</em></span>
+                                                    </div>
+                                                </li>
+                                                <li class="lvl-5">
+                                                    <div class="node territoriales-hijo" tabindex="0">
+                                                        <sup class="ordenamiento">4.5.</sup> <strong>Norte (Barranquilla, Atlántico)</strong>
+                                                        <span>Edgar Fernando Amezquita <br><em>Director</em></span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="side-group">
+                                            <div class="node" id="adscritas" tabindex="0"><sup class="ordenamiento">5.</sup> <strong>Entidades Adscritas y Comités</strong></div>
+                                            <ul>
+                                                <li class="side-item"><div class="node adscritas-hijo" tabindex="0"><sup class="ordenamiento">5.1.</sup> <strong>Fondo Rotatorio DANE - FONDANE</strong></div></li>
+                                                <li class="side-item"><div class="node adscritas-hijo" tabindex="0"><sup class="ordenamiento">5.2.</sup> <strong>Instituto Geográfico Agustín Codazzi - IGAC</strong></div></li>
+                                                <li class="side-item">
+                                                    <div class="node" id="asesoria" tabindex="0"><sup class="ordenamiento">*</sup> <strong>Órganos de Asesoría</strong></div>
+                                                    <ul>
+                                                        <li><div class="node asesoria-hijo" tabindex="0"><sup class="ordenamiento">* 1</sup> Comisión de Personal</div></li>
+                                                        <li><div class="node asesoria-hijo" tabindex="0"><sup class="ordenamiento">* 2</sup> Comité Coord. Control Interno</div></li>
+                                                        <li><div class="node asesoria-hijo" tabindex="0"><sup class="ordenamiento">* 3</sup> Comité Gestión y Desempeño</div></li>
+                                                        <li><div class="node asesoria-hijo" tabindex="0"><sup class="ordenamiento">* 4</sup> Sistema de Ética Estadística - SETE</div></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+</body>
+</html>
